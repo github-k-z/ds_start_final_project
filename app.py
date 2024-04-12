@@ -9,12 +9,13 @@ def load_data():
     data = pd.read_csv("data/tab3-zpl_2000-2023.csv")
     data.columns = pd.Index(['type']).append(data.columns[1:])
     inflation_data = pd.read_csv("data/inflation.csv")
-    return data, inflation_data
+    vvp = pd.read_csv("data/VVP.csv")
+    return data, inflation_data, vvp
 
 
 st.set_page_config(layout="wide")
 
-data, inflation_data = load_data()
+data, inflation_data, vvp = load_data()
 
 selected_types = ["Образование", "Обрабатывающие производства", "Здравоохранение и предоставление социальных услуг"]
 
@@ -51,10 +52,7 @@ for i in range(3):
         })
         st.line_chart(chart_data.set_index("Year"))
 
-
-vvp = pd.read_csv("data/VVP.csv")
 st.subheader("ВВП (в млрд. руб.)")
-
 chart_data = pd.DataFrame({
     "Year": range(2000, 2024),
     "ВВП": vvp.iloc[0].values.flatten(),
